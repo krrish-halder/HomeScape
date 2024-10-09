@@ -13,8 +13,8 @@ app.get('/', (req, res) => {
     res.send('Real Estate API is running');
 });
 
-app.use('/admin/state', require('./routes/Admin/stateRoutes'));
-app.use('/admin/district', require('./routes/Admin/districtRoutes'));
+app.use('/admin/state', require('./routes/admin/stateRoutes'));
+app.use('/admin/district', require('./routes/admin/districtRoutes'));
 app.use('/admin/city', require('./routes/admin/cityRoutes')); 
 
 
