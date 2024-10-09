@@ -19,6 +19,7 @@ exports.addDistrict = async (req, res) => {
     }
 };
 
+
 exports.getDistrictsByState = async (req, res) => {
     try {
         const districts = await District.find({ state: req.params.state_id }).populate('state', 'state_name');

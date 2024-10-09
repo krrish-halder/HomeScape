@@ -19,6 +19,7 @@ exports.addCity = async (req, res) => {
     }
 };
 
+
 // Get cities by district
 exports.getCitiesByDistrict = async (req, res) => {
     try {

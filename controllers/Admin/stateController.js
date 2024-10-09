@@ -13,6 +13,7 @@ exports.addState = async (req, res) => {
 };
 
 
+
 exports.getAllStates = async (req, res) => {
     try {
         const states = await State.find();

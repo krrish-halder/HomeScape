@@ -6,3 +6,4 @@ router.post('/state', stateController.addState);
 router.get('/states', stateController.getAllStates);
 
 module.exports = router;
+

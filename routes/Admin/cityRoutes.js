@@ -11,4 +11,5 @@ router.get('/cities/:district_id', cityController.getCitiesByDistrict);
 // Optional: Admin route to get all cities
 router.get('/cities', cityController.getAllCities);
 
+
 module.exports = router;
