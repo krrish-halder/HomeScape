@@ -16,6 +16,7 @@ app.get('/', (req, res) => {
 app.use('/admin/state', require('./routes/admin/stateRoutes'));
 app.use('/admin/district', require('./routes/admin/districtRoutes'));
 app.use('/admin/city', require('./routes/admin/cityRoutes')); 
+app.use('/admin/property-type', require('./routes/admin/propertyTypeRoutes'));
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {

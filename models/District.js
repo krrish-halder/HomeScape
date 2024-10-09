@@ -10,6 +10,8 @@ const DistrictSchema = new mongoose.Schema({
         ref: 'State',
         required: true
     }
+}, {
+    timestamps: true // Automatically add createdAt and updatedAt timestamps
 });
 
 module.exports = mongoose.model('District', DistrictSchema);

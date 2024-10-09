@@ -15,6 +15,8 @@ const citySchema = new Schema({
         ref: 'District',
         required: true
     }
+}, {
+    timestamps: true // Automatically add createdAt and updatedAt timestamps
 });
 
 module.exports = mongoose.model('City', citySchema);
