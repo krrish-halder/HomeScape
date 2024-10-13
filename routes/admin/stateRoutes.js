@@ -1,11 +1,12 @@
 const express = require('express');
 const router = express.Router();
+const { protect, adminOnly } = require('../../middleware/authMiddleware');
 const stateController = require('../../controllers/Admin/stateController');
 
-router.get('/', stateController.getAllStates);
-router.post('/', stateController.addState);
-router.put('/:id', stateController.updateState);
-router.delete('/:id', stateController.deleteState);
+router.get('/', protect, adminOnly, stateController.getAllStates);
+router.post('/', protect, adminOnly, stateController.addState);
+router.put('/:id', protect, adminOnly, stateController.updateState);
+router.delete('/:id', protect, adminOnly, stateController.deleteState);
 
 module.exports = router;
 

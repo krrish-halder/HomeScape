@@ -13,10 +13,13 @@ app.get('/', (req, res) => {
     res.send('Real Estate API is running');
 });
 
-app.use('/admin/state', require('./routes/admin/stateRoutes'));
-app.use('/admin/district', require('./routes/admin/districtRoutes'));
-app.use('/admin/city', require('./routes/admin/cityRoutes')); 
-app.use('/admin/property-type', require('./routes/admin/propertyTypeRoutes'));
+app.use('/api/v1/auth', require('./routes/users/authRoutes'));
+
+
+app.use('/api/v1/admin/state', require('./routes/admin/stateRoutes'));
+app.use('/api/v1/admin/district', require('./routes/admin/districtRoutes'));
+app.use('/api/v1/admin/city', require('./routes/admin/cityRoutes')); 
+app.use('/api/v1/admin/property-type', require('./routes/admin/propertyTypeRoutes'));
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
