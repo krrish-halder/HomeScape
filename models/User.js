@@ -25,6 +25,21 @@ const userSchema = new mongoose.Schema({
         default: 'user',
         enum: ['user', 'admin'],
     },
+    state_id: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'State', 
+        default: null, 
+    },
+    district_id: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'District', 
+        default: null, 
+    },
+    city_id: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'City', 
+        default: null, 
+    },
 }, { timestamps: true });
 
 userSchema.pre('save', async function (next) {
