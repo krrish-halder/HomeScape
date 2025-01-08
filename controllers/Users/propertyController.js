@@ -1,4 +1,5 @@
 const Property = require('../../models/Property');
+const PropertyType = require('../../models/PropertyType');
 
 // Get all properties with filtering and pagination
 exports.getProperties = async (req, res) => {
@@ -33,7 +34,21 @@ exports.getProperties = async (req, res) => {
     }
 };
 
+// Get all properties listed by the logged-in user
+exports.getUserProperties = async (req, res) => {
+    try {
 
+        const userId = req.user._id;
+        const userProperties = await Property.find({ user_id: userId });
+
+        res.status(200).json(userProperties);
+    } catch (error) {
+        res.status(500).json({
+            message: 'Failed to fetch user properties',
+            error: error.message,
+        });
+    }
+};
 // Get property by ID
 exports.getPropertyById = async (req, res) => {
     try {
@@ -167,5 +182,14 @@ exports.deleteProperty = async (req, res) => {
         res.json({ message: 'Property deleted successfully.' });
     } catch (error) {
         res.status(500).json({ message: 'Failed to delete property', error: error.message });
+    }
+}
+
+exports.getPropertyTypes = async (req, res) => {
+    try {
+        const propertyTypes = await PropertyType.find();
+        res.status(200).json(propertyTypes);
+    } catch (error) {
+        res.status(500).json({ message: 'Failed to fetch property types', error: error.message });
     }
 }

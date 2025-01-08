@@ -26,6 +26,7 @@ app.use('/api/v1/admin/property', require('./routes/admin/propertyRoutes'));
 app.use('/api/v1/user', require('./routes/users/userRoutes'));
 app.use('/api/v1/property', require('./routes/users/propertyRoutes'));
 app.use('/api/v1/wishlist', require('./routes/users/wishlistRoutes'));
+app.use('/api/v1/location', require('./routes/users/locationRoutes'));
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
