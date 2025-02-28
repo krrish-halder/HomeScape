@@ -5,7 +5,7 @@ const PropertyType = require('../../models/PropertyType');
 exports.getProperties = async (req, res) => {
     try {
         const { state_id, district_id, city_id, page = 1 } = req.query;
-        const limit = 1; // Number of properties per page
+        const limit = 12; // Number of properties per page
 
         const filters = {};
         if (state_id) filters.state_id = state_id;

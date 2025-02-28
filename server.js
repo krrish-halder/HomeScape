@@ -16,6 +16,8 @@ app.get('/', (req, res) => {
 app.use('/api/v1/auth', require('./routes/users/authRoutes'));
 
 
+app.use('/api/v1/admin/dashboard', require('./routes/admin/dashboardRoutes'));
+app.use('/api/v1/admin/users', require('./routes/admin/userRoutes'));
 app.use('/api/v1/admin/state', require('./routes/admin/stateRoutes'));
 app.use('/api/v1/admin/district', require('./routes/admin/districtRoutes'));
 app.use('/api/v1/admin/city', require('./routes/admin/cityRoutes'));
