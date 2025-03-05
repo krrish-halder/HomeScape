@@ -13,6 +13,7 @@ const propertySchema = new mongoose.Schema({
     selling_type: { type: String, enum: ['sale', 'rent'], required: true },
     property_type_id: { type: mongoose.Schema.Types.ObjectId, ref: 'PropertyType', required: true },
     user_id: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+    images: [{ type: String }],
 }, { timestamps: true });
 
 module.exports = mongoose.model('Property', propertySchema);

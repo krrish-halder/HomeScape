@@ -9,6 +9,7 @@ const app = express();
 connectDB();
 app.use(express.json());
 app.use(cors());
+app.use('/uploads', express.static('uploads'));
 
 app.get('/', (req, res) => {
     res.send('Real Estate API is running');

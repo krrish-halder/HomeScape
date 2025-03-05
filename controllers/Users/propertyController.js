@@ -193,3 +193,29 @@ exports.getPropertyTypes = async (req, res) => {
         res.status(500).json({ message: 'Failed to fetch property types', error: error.message });
     }
 }
+
+exports.uploadImages = async (req, res) => {
+    try {
+        const { propertyId } = req.body;
+
+        if (!req.files || req.files.length === 0) {
+            return res.status(400).json({ message: 'No files uploaded' });
+        }
+
+        const imagePaths = req.files.map((file) => file.path); // Array of file paths
+
+        // Update the property with the uploaded image paths
+        const property = await Property.findByIdAndUpdate(
+            propertyId,
+            { $push: { images: { $each: imagePaths } } },
+            { new: true }
+        );
+
+        res.status(200).json({
+            message: 'Images uploaded successfully',
+            property,
+        });
+    } catch (error) {
+        res.status(500).json({ message: 'Failed to upload images', error: error.message });
+    }
+};
