@@ -1,5 +1,7 @@
 const Property = require('../../models/Property');
 const PropertyType = require('../../models/PropertyType');
+const cloudinary = require('../../utils/cloudinary');
+
 
 // Get all properties with filtering and pagination
 exports.getProperties = async (req, res) => {
@@ -177,7 +179,7 @@ exports.deleteProperty = async (req, res) => {
             return res.status(403).json({ message: 'You are not authorized to delete this property' });
         }
 
-        await property.remove();
+        await Property.deleteOne({ _id: req.params.id });
 
         res.json({ message: 'Property deleted successfully.' });
     } catch (error) {
@@ -202,14 +204,23 @@ exports.uploadImages = async (req, res) => {
             return res.status(400).json({ message: 'No files uploaded' });
         }
 
-        const imagePaths = req.files.map((file) => file.path); // Array of file paths
+        const uploadedImages = [];
+        for (const file of req.files) {
+            const result = await cloudinary.uploader.upload(file.path, {
+                folder: 'properties', // Folder in Cloudinary for property images
+            });
+            uploadedImages.push(result.secure_url);
+        }
 
-        // Update the property with the uploaded image paths
         const property = await Property.findByIdAndUpdate(
             propertyId,
-            { $push: { images: { $each: imagePaths } } },
+            { $push: { images: { $each: uploadedImages } } }, // Add new images to the array
             { new: true }
         );
+
+        if (!property) {
+            return res.status(404).json({ message: 'Property not found' });
+        }
 
         res.status(200).json({
             message: 'Images uploaded successfully',

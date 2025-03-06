@@ -14,6 +14,6 @@ router.post('/', protect, propertyController.createProperty);    // Create a new
 router.put('/:id', protect, propertyController.updateProperty);    // Update a property
 router.delete('/:id', protect, propertyController.deleteProperty);    // Delete a property
 
-router.post('/upload-images', protect, upload.array('images', 10), propertyController.uploadImages); // Upload up to 5 images
+router.post('/upload-images', protect, upload.array('images', 10), propertyController.uploadImages); // Upload up to 10 images
 
 module.exports = router;
