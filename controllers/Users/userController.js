@@ -1,4 +1,5 @@
 const User = require('../../models/User');
+const cloudinary = require('../../utils/cloudinary');
 
 // User pfofile
 exports.getMe = async (req, res) => {
@@ -19,6 +20,13 @@ exports.updateMe = async (req, res) => {
     try {
         const { name, username, state_id, district_id, city_id } = req.body;
         const updateData = { name, username, state_id, district_id, city_id };
+
+        if (req.file) {
+            const result = await cloudinary.uploader.upload(req.file.path, {
+                folder: 'user_profiles', // Folder in Cloudinary for user profile photos
+            });
+            updateData.profile_photo = result.secure_url; // Add the uploaded photo URL to update data
+        }
 
         const updatedUser = await User.findByIdAndUpdate(
             req.user._id,

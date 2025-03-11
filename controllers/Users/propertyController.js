@@ -87,6 +87,16 @@ exports.createProperty = async (req, res) => {
 
         const user_id = req.user._id;
 
+        const uploadedImages = [];
+        if (req.files && req.files.length > 0) {
+            for (const file of req.files) {
+                const result = await cloudinary.uploader.upload(file.path, {
+                    folder: 'properties', // Folder in Cloudinary for property images
+                });
+                uploadedImages.push(result.secure_url);
+            }
+        }
+
         const property = new Property({
             title,
             description,
@@ -99,6 +109,7 @@ exports.createProperty = async (req, res) => {
             selling_type,
             property_type_id,
             user_id,
+            images: uploadedImages,
         });
 
         const savedProperty = await property.save();

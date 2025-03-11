@@ -40,6 +40,11 @@ const userSchema = new mongoose.Schema({
         ref: 'City', 
         default: null, 
     },
+    profile_photo: {
+        type: String,
+        default: null,
+    },
+
 }, { timestamps: true });
 
 userSchema.pre('save', async function (next) {
