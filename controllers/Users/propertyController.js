@@ -21,7 +21,12 @@ exports.getProperties = async (req, res) => {
         const properties = await Property.find(filters)
             .sort({ createdAt: -1 })
             .skip(skip)
-            .limit(limitNumber);
+            .limit(limitNumber)
+            .populate('user_id', '-password')
+            .populate('state_id')
+            .populate('district_id')
+            .populate('city_id')
+            .populate('property_type_id');
 
         const totalProperties = await Property.countDocuments(filters);
 
@@ -54,7 +59,12 @@ exports.getUserProperties = async (req, res) => {
 // Get property by ID
 exports.getPropertyById = async (req, res) => {
     try {
-        const property = await Property.findById(req.params.id);
+        const property = await Property.findById(req.params.id)
+            .populate('user_id', '-password')
+            .populate('state_id')
+            .populate('district_id')
+            .populate('city_id')
+            .populate('property_type_id');
         if (!property) {
             return res.status(404).json({ message: 'Property not found' });
         }
