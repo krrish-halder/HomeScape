@@ -18,8 +18,12 @@ exports.getMe = async (req, res) => {
 // Update user profile
 exports.updateMe = async (req, res) => {
     try {
-        const { name, username, state_id, district_id, city_id } = req.body;
+        const { name, username, state_id, district_id, city_id, phone } = req.body;
         const updateData = { name, username, state_id, district_id, city_id };
+
+        if (phone) {
+            updateData.phone = phone; 
+        }
 
         if (req.file) {
             const result = await cloudinary.uploader.upload(req.file.path, {

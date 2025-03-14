@@ -1,6 +1,7 @@
 const Property = require('../../models/Property');
 const PropertyType = require('../../models/PropertyType');
 const cloudinary = require('../../utils/cloudinary');
+const Wishlist = require('../../models/Wishlist');
 
 
 // Get all properties with filtering and pagination
@@ -30,8 +31,23 @@ exports.getProperties = async (req, res) => {
 
         const totalProperties = await Property.countDocuments(filters);
 
+        let wishlistedPropertyIds = new Set();
+
+        if (req.user) {
+            const userWishlist = await Wishlist.find({ user_id: req.user._id }).select('property_id');
+            wishlistedPropertyIds = new Set(userWishlist.map((item) => item.property_id.toString()));
+        }
+
+        const propertiesWithWishlistStatus = properties.map((property) => {
+            return {
+                ...property.toObject(),
+                isWishlisted: wishlistedPropertyIds.has(property._id.toString()),
+            };
+        });
+
+        
         res.json({
-            properties,
+            properties: propertiesWithWishlistStatus,
             currentPage: pageNumber,
             totalPages: Math.ceil(totalProperties / limitNumber),
             totalProperties,
@@ -68,8 +84,23 @@ exports.getPropertyById = async (req, res) => {
         if (!property) {
             return res.status(404).json({ message: 'Property not found' });
         }
+        let isWishlisted = false;
 
-        res.json(property);
+        if (req.user) {
+            const wishlistItem = await Wishlist.findOne({
+                user_id: req.user._id,
+                property_id: property._id,
+            });
+
+            isWishlisted = !!wishlistItem;
+        }
+
+        const propertyWithWishlistStatus = {
+            ...property.toObject(),
+            isWishlisted,
+        };
+
+        res.json(propertyWithWishlistStatus);
     } catch (error) {
         res.status(500).json({ message: 'Failed to fetch property details', error: error.message });
     }
