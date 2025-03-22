@@ -62,7 +62,8 @@ exports.getUserProperties = async (req, res) => {
     try {
 
         const userId = req.user._id;
-        const userProperties = await Property.find({ user_id: userId });
+        const userProperties = await Property.find({ user_id: userId }).populate('user_id', '-password')
+.populate('state_id').populate('district_id').populate('city_id').populate('property_type_id');
 
         res.status(200).json(userProperties);
     } catch (error) {
